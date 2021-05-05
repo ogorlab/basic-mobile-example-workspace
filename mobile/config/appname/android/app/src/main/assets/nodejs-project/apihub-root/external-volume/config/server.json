@@ -1,0 +1,48 @@
+{
+    "port": 8080,
+    "storage": "../apihub-root",
+    "preventRateLimit": true,
+    "enableRequestLogger": true,
+    "activeEndpoints": [
+      "bdns",
+      "bricksLedger",
+      "bricksFabric",
+      "bricking",
+      "anchoring",
+      "dsu-wizard",
+      "staticServer"
+    ],
+    "endpointsConfig": {
+      "bricking": {
+        "domains": {
+          "vault": {
+            "path": "/external-volume/domains/vault/brick-storage"
+          }
+        }
+      },
+      "anchoring": {
+        "domainStrategies": {
+          "vault": {
+            "type": "FS",
+            "option": {
+              "path": "/external-volume/domains/vault/anchors"
+            }
+          }
+        }
+      }
+    },
+    "enableAuthorisation": false,
+    "enableLocalhostAuthorization": false,
+    "skipAuthorisation": [
+      "/directory-summary",
+      "/resources",
+      "/bdns",
+      "/anchor/epi/versions",
+      "/anchor/default",
+      "/bricking/default",
+      "/bricksFabric",
+      "/bricksledger",
+      "/files"
+    ],
+    "iframeHandlerDsuBootPath": "./nodeBoot.js"
+  }

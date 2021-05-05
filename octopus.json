@@ -1,0 +1,226 @@
+{
+    "workDir": ".",
+    "dependencies": [
+        {
+            "name": "privatesky",
+            "src": "http://github.com/privatesky/privatesky.git",
+            "actions": [
+                {
+                    "type": "smartClone",
+                    "target": ".",
+                    "collectLog": false
+                },
+                {
+                    "type": "execute",
+                    "cmd": "cd privatesky && npm install"
+                }
+            ]
+        },
+        {
+            "name": "build privatesky",
+            "actions": [
+                {
+                    "type": "execute",
+                    "cmd": "cd privatesky && npm run build"
+                }
+            ]
+        },
+        {
+            "name": "mobile/appname/android",
+            "src": "https://github.com/PrivateSky/android-edge-agent",
+            "actions": [
+                {
+                    "type": "smartClone",
+                    "target": ".",
+                    "collectLog": false
+                },
+                {
+                    "type": "execute",
+                    "cmd": "cd mobile/appname/android && npm install"
+                }
+            ]
+        },
+        {
+            "name": "mobile/appname/ios",
+            "src": "https://github.com/PrivateSky/ios-edge-agent",
+            "actions": [
+                {
+                    "type": "smartClone",
+                    "target": ".",
+                    "collectLog": false
+                },
+                {
+                    "type": "execute",
+                    "cmd": "echo \"Continue with ipa builds\""
+                }
+            ]
+        },
+        {
+            "name": "app",
+            "src": "http://github.com/REPLACE_THIS_IN_THE_OCTOPUS_FILE_WITH_YOUR_REPO_URL",
+            "actions": [
+                {
+                    "type": "smartClone",
+                    "target": "./apihub-root",
+                    "collectLog": false
+                },
+                {
+                    "type": "execute",
+                    "cmd": "cd ./apihub-root/app && npm install"
+                }
+            ]
+        }
+    ],
+    "build-mobile" : [
+        {
+            "name": "build-android-app",
+            "actions": [
+                {
+                    "type": "remove",
+                    "target": "mobile/appname/android/app/src/main/assets/nodejs-project"
+                },
+                {
+                    "type": "copy",
+                    "src": "bin/MobileServerLauncher.js",
+                    "target" : "mobile/appname/android/app/src/main/assets/nodejs-project/MobileServerLauncher.js"
+                },
+                {
+                    "type": "copy",
+                    "src": "privatesky/psknode/bundles/pskWebServer.js",
+                    "target" : "mobile/appname/android/app/src/main/assets/nodejs-project/pskWebServer.js"
+                },
+                {
+                    "type": "copy",
+                    "src": "privatesky/psknode/bundles/nodeBoot.js",
+                    "target" : "mobile/appname/android/app/src/main/assets/nodejs-project/nodeBoot.js"
+                },
+                {
+                    "type": "copy",
+                    "src": "apihub-root/internal-volume",
+                    "target" : "mobile/appname/android/app/src/main/assets/nodejs-project/apihub-root/internal-volume"
+                },
+                {
+                    "type": "copy",
+                    "src": "apihub-root/external-volume",
+                    "target" : "mobile/appname/android/app/src/main/assets/nodejs-project/apihub-root/external-volume"
+                },
+                {
+                    "type": "copy",
+                    "src": "apihub-root/app",
+                    "target" : "mobile/appname/android/app/src/main/assets/nodejs-project/apihub-root/app"
+                },
+                {
+                    "type": "copy",
+                    "src": "mobile/config/appname/android",
+                    "target": "mobile/appname/android",
+                    "options": {
+                        "overwrite": true
+                    }
+                }
+            ]
+        },
+        {
+            "name": "build-ios-app",
+            "actions": [
+                {
+                    "type": "remove",
+                    "target": "mobile/appname/ios/PSKNodeServer/PSKNodeServer/nodejsProject"
+                },
+                {
+                    "type": "copy",
+                    "src": "bin/MobileServerLauncher.js",
+                    "target": "mobile/appname/ios/PSKNodeServer/PSKNodeServer/nodejsProject/MobileServerLauncher.js"
+                },
+                {
+                    "type": "copy",
+                    "src": "privatesky/psknode/bundles/pskWebServer.js",
+                    "target": "mobile/appname/ios/PSKNodeServer/PSKNodeServer/nodejsProject/pskWebServer.js"
+                },
+                {
+                    "type": "copy",
+                    "src": "privatesky/psknode/bundles/nodeBoot.js",
+                    "target": "mobile/appname/ios/PSKNodeServer/PSKNodeServer/nodejsProject/nodeBoot.js"
+                },
+                {
+                    "type": "copy",
+                    "src": "apihub-root/internal-volume",
+                    "target": "mobile/appname/ios/PSKNodeServer/PSKNodeServer/nodejsProject/apihub-root/internal-volume"
+                },
+                {
+                    "type": "copy",
+                    "src": "apihub-root/external-volume",
+                    "target": "mobile/appname/ios/PSKNodeServer/PSKNodeServer/nodejsProject/apihub-root/external-volume"
+                },
+                {
+                    "type": "copy",
+                    "src": "apihub-root/app",
+                    "target" : "mobile/appname/ios/PSKNodeServer/PSKNodeServer/nodejsProject/apihub-root/app"
+                },
+                {
+                    "type": "copy",
+                    "src": "mobile/config/appname/ios",
+                    "target": "mobile/appname/ios",
+                    "options":
+                    {
+                        "overwrite": true
+                    }
+                },
+                {
+                    "type": "copy",
+                    "src": "mobile/appname/ios/nativeBridge.js",
+                    "target": "mobile/appname/ios/PSKNodeServer/PSKNodeServer/nodejsProject/apihub-root/nativeBridge.js",
+                    "options":
+                    {
+                        "overwrite": true
+                    }
+                }
+            ]
+        }
+    ],
+    "build-android-apk" : [
+        {
+            "name": "install NDK",
+            "actions": [
+                {
+                    "type": "execute",
+                    "cmd": "cd mobile/appname/android && gradlew.bat -b ndk.gradle installNDK",
+					"os": "win32"
+                },
+				{
+                    "type": "execute",
+                    "cmd": "cd mobile/appname/android && ./gradlew -b ndk.gradle installNDK",
+					"os": "linux"
+                },
+				{
+                    "type": "execute",
+                    "cmd": "cd mobile/appname/android && ./gradlew -b ndk.gradle installNDK",
+					"os": "darwin"
+                }
+            ]
+        },
+        {
+            "name": "build APK",
+            "actions": [
+                {
+                    "type": "execute",
+                    "cmd": "cd mobile/appname/android && gradlew.bat assembleRelease",
+					"os": "win32"
+                },
+				{
+                    "type": "execute",
+                    "cmd": "cd mobile/appname/android && ./gradlew assembleRelease",
+					"os": "linux"
+                },
+				{
+                    "type": "execute",
+                    "cmd": "cd mobile/appname/android && ./gradlew assembleRelease",
+					"os": "darwin"
+                },
+                {
+                    "type": "execute",
+                    "cmd": "echo \"APK should be in mobile/appname/android/app/build/outputs/apk/release\" "
+                }
+            ]
+        }
+    ]
+}

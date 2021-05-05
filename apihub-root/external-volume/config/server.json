@@ -1,0 +1,95 @@
+{
+  "port": 8080,
+  "storage": "../apihub-root",
+  "preventRateLimit": true,
+  "enableRequestLogger": true,
+  "activeEndpoints": [
+    "virtualMQ",
+    "messaging",
+    "notifications",
+    "filesManager",
+    "bdns",
+    "bricksLedger",
+    "bricksFabric",
+    "bricking",
+    "anchoring",
+    "dsu-wizard",
+    "debugLogger",
+    "staticServer"
+  ],
+  "endpointsConfig": {
+    "bricking": {
+      "domains": {
+        "ogor": {
+          "path": "/external-volume/domains/ogor/brick-storage"
+        },
+        "default": {
+          "path": "/internal-volume/domains/default/brick-storage"
+        },
+        "predefined": {
+          "path": "/internal-volume/domains/predefined/brick-storage"
+        },
+        "vault": {
+          "path": "/external-volume/domains/vault/brick-storage"
+        }
+      }
+    },
+    "anchoring": {
+      "domainStrategies": {
+        "ogor": {
+          "type": "FS",
+          "option": {
+            "path": "/external-volume/domains/ogor/anchors",
+            "enableBricksLedger": false
+          },
+          "commands": {
+            "addAnchor": "anchor"
+          }
+        },
+        "default": {
+          "type": "FS",
+          "option": {
+            "path": "/internal-volume/domains/default/anchors",
+            "enableBricksLedger": false
+          },
+          "commands": {
+            "addAnchor": "anchor"
+          }
+        },
+        "predefined": {
+          "type": "FS",
+          "option": {
+            "path": "/internal-volume/domains/predefined/anchors"
+          }
+        },
+        "vault": {
+          "type": "FS",
+          "option": {
+            "path": "/external-volume/domains/vault/anchors"
+          }
+        }
+      }
+    }
+  },
+  "enableAuthorisation": false,
+  "enableLocalhostAuthorization": false,
+  "skipAuthorisation": [
+    "/assets",
+    "/directory-summary",
+    "/resources",
+    "/bdns",
+    "/anchor/epi",
+    "/anchor/default",
+    "/anchor/vault",
+    "/bricking",
+    "/bricksFabric",
+    "/bricksledger",
+    "/create-channel",
+    "/forward-zeromq",
+    "/send-message",
+    "/receive-message",
+    "/files",
+    "/notifications",
+    "/mq"
+  ]
+}

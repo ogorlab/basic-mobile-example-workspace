@@ -1,0 +1,7 @@
+.idea
+privatesky
+node_modules
+package-lock.json
+env.json.devel
+apihub-root/app
+latest-change-set.txt
