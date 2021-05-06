@@ -1,10 +1,11 @@
 # Example Workspace
 
-This workspace is meant to be an example workspace for those that want to use PrivateSky ios-edge-agent and android-edge-agent in order to wrap web applications into native mobile one for Android and iOS.
+This workspace is meant to be an example workspace for those that want to use PrivateSky ios-edge-agent and android-edge-agent in order to wrap web application into native mobile one for Android and iOS.
 
 ## PreInstall
 After you clone this repo locally go and edit octopus.json file in order to replace 
 **```http://github.com/REPLACE_THIS_IN_THE_OCTOPUS_FILE_WITH_YOUR_REPO_URL```** with your app repo url.
+If your app need suplimentary actions to the npm install that is already prepared, please check [Octopus documentation](https://privatesky.xyz/tools/octopus) in order to do necessary changes.
 
 ## Installation
 Execute **```npm install```** command to install all the necessary deps.
