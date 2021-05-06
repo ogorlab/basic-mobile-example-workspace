@@ -23,4 +23,4 @@ Edit the file: **"mobile/appname/android/local.properties"** to point to the And
 Running ```npm run build-android-apk``` will produce the app file. Alternative, you can use Android Studio to build and test it into Emulator. 
 
 ## Build iOS Native App
-Open the .workspace file with xCode (recommended version >= 12.0), configure the bundle-id, certificates, profiles and build the native app.
+Open the .xcworkspace file with xCode (recommended version >= 12.0), configure the bundle-id, certificates, profiles and build the native app.
