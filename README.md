@@ -1,28 +1,41 @@
-# Example Workspace
+# Private Sky build workspace for ogor-frontend
 
-This workspace is meant to be an example workspace for those that want to use PrivateSky ios-edge-agent and android-edge-agent in order to wrap web application into native mobile one for Android and iOS.
+Workspace can be used to build and package the [ogor-frontend](https://github.com/ogorlab/ogor-frontend/) app for Android
 
-## PreInstall
-Please check that you NodeJS version is higher then 13. Recomeneded **v14.15.0**
+### Build steps
 
-After you clone this repo locally go and edit octopus.json file in order to replace 
-**```http://github.com/REPLACE_THIS_IN_THE_OCTOPUS_FILE_WITH_YOUR_REPO_URL```** with your app repo url.
-If your app need suplimentary actions to the npm install that is already prepared, please check [Octopus documentation](https://privatesky.xyz/tools/octopus) in order to do necessary changes.
+ - Ensure docker and git is installed, and you have the required access to clone the `ogor-frontend` repository
+ - Copy build config file:
+   ```
+   cp .env.example .env.local
+   ```
+ - Add the Google Maps key to the `.env.local` file in the `VUE_APP_GOOGLE_MAPS_KEY` variable
+ - Run the build script with the ogor-frontend branch you want to build
+   ```
+   ./build_apk.sh v2.4.3
+   ```
+ - The .apk file will be in the `apk-releases` folder after the build finishes
+   ```
+   $ ls -1 ./apk-releases/
+   app-release.apk
+   output-metadata.json
+   ```
 
-## Installation
-Execute **```npm install```** command to install all the necessary deps.
+### Differences from example repo
 
-## Mobile App Configuration
-Make any changes necessary into the **```mobile/config```** folder in order to customize the name, version, icons of the final mobile app.
+This repo is a fork from this [example](https://github.com/PrivateSky/basic-mobile-example-workspace) with the following changes/additions:
 
-## Build
-**```npm run build-mobile```** command prepares everything needed by the mobile native applications for Android and iOS platforms.
+ - A [Dockerfile](./Dockerfile) to assist creating a reproducible env for building the APK.
+   - This contains a build stage for the [ogor-frontend](https://github.com/ogorlab/ogor-frontend/) app. This custom build does NOT include the pre-render pages for SEO. 
+ - A simple [redirect page](./app/loader/index.html) for the index page. Injected into the static page serving in the Docker file
+ - Middleware for the node server to handle requests to the OGOR API. (see [ogorUtils.js](./ogorUtils.js))
+    - configured in the server.json file
+    - intercepts local requests to the API, sends them to the actual API, pipes and adjust the response to handle CORS
+ - Various adjustments to the `octopus.json` file, as the frontend build is done in the Dockerfile instead of handled by octopus
+ - A convenience script with all the steps for building the apk [build_apk.sh](./build_apk.sh) 
 
-## Build Android Native App
-First you need to ensure that you have installed on your local machine Android SDK.
-Edit the file: **"mobile/appname/android/local.properties"** to point to the Android SDK installation path.
+## TODO
 
-Running ```npm run build-android-apk``` will produce the app file. Alternative, you can use Android Studio to build and test it into Emulator. 
-
-## Build iOS Native App
-Open the .xcworkspace file with xCode (recommended version >= 12.0), configure the bundle-id, certificates, profiles and build the native app.
+ - Adjust apk metadata when building (version, logo, permissions, etc.)
+ - Remove landing page from the apk build
+ - See todos in [ogorUtils.js](./ogorUtils.js)

@@ -54,21 +54,6 @@
                     "cmd": "echo \"Continue with ipa builds\""
                 }
             ]
-        },
-        {
-            "name": "app",
-            "src": "http://github.com/REPLACE_THIS_IN_THE_OCTOPUS_FILE_WITH_YOUR_REPO_URL",
-            "actions": [
-                {
-                    "type": "smartClone",
-                    "target": "./apihub-root",
-                    "collectLog": false
-                },
-                {
-                    "type": "execute",
-                    "cmd": "cd ./apihub-root/app && npm install"
-                }
-            ]
         }
     ],
     "build-mobile" : [
@@ -106,16 +91,31 @@
                 },
                 {
                     "type": "copy",
-                    "src": "apihub-root/app",
-                    "target" : "mobile/appname/android/app/src/main/assets/nodejs-project/apihub-root/app"
-                },
-                {
-                    "type": "copy",
                     "src": "mobile/config/appname/android",
                     "target": "mobile/appname/android",
                     "options": {
                         "overwrite": true
                     }
+                }
+            ]
+        },
+        {
+            "name": "install NDK",
+            "actions": [
+                {
+                    "type": "execute",
+                    "cmd": "cd mobile/appname/android && gradlew.bat -b ndk.gradle installNDK",
+					"os": "win32"
+                },
+				{
+                    "type": "execute",
+                    "cmd": "cd mobile/appname/android && ./gradlew -b ndk.gradle installNDK",
+					"os": "linux"
+                },
+				{
+                    "type": "execute",
+                    "cmd": "cd mobile/appname/android && ./gradlew -b ndk.gradle installNDK",
+					"os": "darwin"
                 }
             ]
         },
@@ -153,11 +153,6 @@
                 },
                 {
                     "type": "copy",
-                    "src": "apihub-root/app",
-                    "target" : "mobile/appname/ios/PSKNodeServer/PSKNodeServer/nodejsProject/apihub-root/app"
-                },
-                {
-                    "type": "copy",
                     "src": "mobile/config/appname/ios",
                     "target": "mobile/appname/ios",
                     "options":
@@ -178,26 +173,6 @@
         }
     ],
     "build-android-apk" : [
-        {
-            "name": "install NDK",
-            "actions": [
-                {
-                    "type": "execute",
-                    "cmd": "cd mobile/appname/android && gradlew.bat -b ndk.gradle installNDK",
-					"os": "win32"
-                },
-				{
-                    "type": "execute",
-                    "cmd": "cd mobile/appname/android && ./gradlew -b ndk.gradle installNDK",
-					"os": "linux"
-                },
-				{
-                    "type": "execute",
-                    "cmd": "cd mobile/appname/android && ./gradlew -b ndk.gradle installNDK",
-					"os": "darwin"
-                }
-            ]
-        },
         {
             "name": "build APK",
             "actions": [

@@ -4,6 +4,7 @@
     "preventRateLimit": true,
     "enableRequestLogger": true,
     "activeEndpoints": [
+      "ogor-api",
       "bdns",
       "bricksLedger",
       "bricksFabric",
@@ -13,6 +14,10 @@
       "staticServer"
     ],
     "endpointsConfig": {
+      "ogor-api": {
+        "module": "./ogorUtils.js",
+        "function": "ogorHandler"
+      },
       "bricking": {
         "domains": {
           "vault": {
@@ -42,7 +47,8 @@
       "/bricking/default",
       "/bricksFabric",
       "/bricksledger",
-      "/files"
+      "/files",
+      "/ogor-api"
     ],
     "iframeHandlerDsuBootPath": "./nodeBoot.js"
   }
