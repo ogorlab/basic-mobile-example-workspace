@@ -39,3 +39,4 @@ This repo is a fork from this [example](https://github.com/PrivateSky/basic-mobi
  - Adjust apk metadata when building (version, logo, permissions, etc.)
  - Remove landing page from the apk build
  - See todos in [ogorUtils.js](./ogorUtils.js)
+ - Add support for proxying WS connections (third-party support might be needed)
